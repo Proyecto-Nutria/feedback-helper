@@ -1,0 +1,25 @@
+{
+  "name": "feedback-helper",
+  "version": "0.0.1",
+  "scripts": {
+    "build": "bsb -make-world",
+    "start": "bsb -make-world -w -ws _ ",
+    "clean": "bsb -clean-world",
+    "server": "moduleserve ./ --port 8000",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "feedback", "helper"
+  ],
+  "author": "Proyecto-Nutria",
+  "license": "AGPL-3.0-only",
+  "dependencies": {
+    "react": "^16.8.1",
+    "react-dom": "^16.8.1",
+    "reason-react": ">=0.7.1"
+  },
+  "devDependencies": {
+    "bs-platform": "^8.2.0",
+    "moduleserve": "^0.9.0"
+  }
+}

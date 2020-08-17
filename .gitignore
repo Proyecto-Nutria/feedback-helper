@@ -1,3 +1,11 @@
+# ReasonML
+.DS_Store
+.bsb.lock
+.merlin
+/lib/bs/
+/bundleOutput/
+npm-debug.log
+
 # Logs
 logs
 *.log
