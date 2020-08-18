@@ -3,6 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <title>ReasonReact Examples</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      font-family: 'Roboto', sans-serif;
+    }
+
+    #root {
+      width: 100vw;
+      height: 100vh;
+      background-color: #b9b8d1;
+    }
+  </style>
 </head>
 <body>
   <script>
@@ -13,10 +28,11 @@
       }
     };
   </script>
-
+  <div id="root"></div>
   <!-- This is https://github.com/marijnh/moduleserve, the secret sauce that allows us not need to bundle things during development, and have instantaneous iteration feedback, without any hot-reloading or extra build pipeline needed. -->
-  <script src="/moduleserve/load.js" data-module="/src/Index.bs.js"></script>
+  <!-- <script src="/moduleserve/load.js" data-module="/src/Index.bs.js"></script> -->
   <!-- Our little watcher. Super clean. Check it out! -->
-  <script src="/watcher.js"></script>
+  <!-- <script src="/watcher.js"></script> -->
+  <script src="/Index.js"></script>
 </body>
 </html>

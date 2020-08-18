@@ -5,21 +5,32 @@
     "build": "bsb -make-world",
     "start": "bsb -make-world -w -ws _ ",
     "clean": "bsb -clean-world",
-    "server": "moduleserve ./ --port 8000",
+    "webpack": "webpack -w",
+    "webpack:production": "NODE_ENV=production webpack",
+    "server": "webpack-dev-server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
-    "feedback", "helper"
+    "feedback",
+    "helper"
   ],
   "author": "Proyecto-Nutria",
   "license": "AGPL-3.0-only",
   "dependencies": {
     "react": "^16.8.1",
     "react-dom": "^16.8.1",
-    "reason-react": ">=0.7.1"
+    "reason-react": ">=0.7.1",
+    "@material-ui/core": "^4.11.0",
+    "@material-ui/icons": "^4.9.1"
   },
   "devDependencies": {
     "bs-platform": "^8.2.0",
-    "moduleserve": "^0.9.0"
+    "webpack": "^4.0.1",
+    "webpack-cli": "^3.1.1",
+    "webpack-dev-server": "^3.1.8",
+    "html-webpack-plugin": "^3.2.0",
+    "style-loader": "^1.0.0",
+    "css-loader": "^3.2.0",
+    "@jsiebern/bs-material-ui": "^2.0.2"
   }
 }

@@ -1,5 +1,5 @@
 {
-  "name": "my-react-app",
+  "name": "feedback-helper",
   "reason": {
     "react-jsx": 3
   },
@@ -15,7 +15,8 @@
   "suffix": ".bs.js",
   "namespace": true,
   "bs-dependencies": [
-    "reason-react"
+    "reason-react",
+    "@jsiebern/bs-material-ui"
   ],
   "refmt": 3
 }
