@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
-  <title>ReasonReact Examples</title>
+  <title>Feedback Helper</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
   <style>
-    body, html {
+    body,
+    html {
       margin: 0;
       padding: 0;
       font-family: 'Roboto', sans-serif;
@@ -19,20 +21,13 @@
     }
   </style>
 </head>
+
 <body>
-  <script>
-    // stub a variable ReactJS checks. ReactJS assumes you're using a bundler, NodeJS or similar system that provides it the `process.env.NODE_ENV` variable.
-    window.process = {
-      env: {
-        NODE_ENV: 'development'
-      }
-    };
-  </script>
   <div id="root"></div>
-  <!-- This is https://github.com/marijnh/moduleserve, the secret sauce that allows us not need to bundle things during development, and have instantaneous iteration feedback, without any hot-reloading or extra build pipeline needed. -->
-  <!-- <script src="/moduleserve/load.js" data-module="/src/Index.bs.js"></script> -->
-  <!-- Our little watcher. Super clean. Check it out! -->
-  <!-- <script src="/watcher.js"></script> -->
-  <script src="/Index.js"></script>
+  <!-- production  -->
+  <script src="./bundle/index.js"></script>
+  <!-- development  -->
+  <!-- <script src="/Index.js"></script> -->
 </body>
+
 </html>
