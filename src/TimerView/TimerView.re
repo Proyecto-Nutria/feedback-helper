@@ -1,7 +1,14 @@
 [@react.component]
-let make = (~time: Time.duration, ~limit: Time.duration) => {
+let make =
+    (
+      ~time: Time.duration,
+      ~limit: Time.duration,
+      ~onPlay: unit => unit,
+      ~onPause: unit => unit,
+      ~onReset: unit => unit,
+    ) => {
   MaterialUi.(
-    <div style={ReactDOM.Style.make(~padding="10px",())}>
+    <div style={ReactDOM.Style.make(~padding="10px", ())}>
       <Card>
         <CardContent
           style={ReactDOM.Style.make(
@@ -25,10 +32,14 @@ let make = (~time: Time.duration, ~limit: Time.duration) => {
             {React.string(Time.format(time))}
           </div>
           <div style={ReactDOM.Style.make(~display="flex", ())}>
-            {"Start Reset Pause" |> React.string}
+            <ButtonGroup color=`Primary variant=`Contained>
+              <Button onClick={_ => onPause()}> <Icon> "pause" </Icon> </Button>
+              <Button onClick={_ => onPlay()}> <Icon> "play_arrow" </Icon> </Button>
+              <Button onClick={_ => onReset()}> <Icon> "replay" </Icon> </Button>
+            </ButtonGroup>
           </div>
           <CircularProgressWithLabel
-            progress=min(100, Time.percentage(~current=time, ~total=limit))
+            progress={min(100, Time.percentage(~current=time, ~total=limit))}
           />
         </CardContent>
       </Card>

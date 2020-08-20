@@ -1,5 +1,5 @@
 [@react.component]
-let make = (~time: Time.duration) => {
+let make = (~time: Time.duration) => { 
   open MaterialUi;
 
   let (text, setText) = React.useState(() => "");
