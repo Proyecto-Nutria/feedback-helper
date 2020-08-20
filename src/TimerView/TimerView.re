@@ -25,7 +25,7 @@ let make = (~time: Time.duration, ~limit: Time.duration) => {
             {React.string(Time.format(time))}
           </div>
           <div style={ReactDOM.Style.make(~display="flex", ())}>
-            {"Feedback Helper" |> React.string}
+            {"Start Reset Pause" |> React.string}
           </div>
           <CircularProgressWithLabel
             progress=min(100, Time.percentage(~current=time, ~total=limit))
