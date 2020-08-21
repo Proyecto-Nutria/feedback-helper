@@ -53,7 +53,7 @@ let make = () => {
     )}>
     <div style={ReactDOM.Style.make(~height="2%", ())} />
     <TimerView
-      limit={minutes: 0, seconds: 30}
+      limit={minutes: 45, seconds: 0}
       time=gTime
       onPlay
       onPause
