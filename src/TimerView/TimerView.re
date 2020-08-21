@@ -7,43 +7,68 @@ let make =
       ~onPause: unit => unit,
       ~onReset: unit => unit,
     ) => {
-  MaterialUi.(
-    <div style={ReactDOM.Style.make(~padding="10px", ())}>
-      <Card>
-        <CardContent
-          style={ReactDOM.Style.make(
-            ~display="flex",
-            ~alignItems="center",
-            ~flexDirection="row",
-            ~justifyContent="space-between",
-            (),
-          )}>
-          <div
-            style={ReactDOM.Style.make(
-              ~display="flex",
-              ~borderRadius="5px",
-              ~background="lightgray",
-              ~padding="5px",
-              ~alignItems="center",
-              ~justifyContent="center",
-              ~flexDirection="column",
-              (),
-            )}>
-            {React.string(Time.format(time))}
-          </div>
-          <div style={ReactDOM.Style.make(~display="flex", ())}>
-            <ButtonGroup color=`Primary variant=`Contained>
-              <Button onClick={_ => onPause()}> <Icon> "pause" </Icon> </Button>
-              <Button onClick={_ => onPlay()}> <Icon> "play_arrow" </Icon> </Button>
-              <Button onClick={_ => onReset()}> <Icon> "replay" </Icon> </Button>
-            </ButtonGroup>
-          </div>
-          <CircularProgressWithLabel
-            progress={min(100, Time.percentage(~current=time, ~total=limit))}
-            label={Time.format(time)}
-          />
-        </CardContent>
-      </Card>
-    </div>
-  );
+  open MaterialUi;
+
+  let (isOnPause, setIsOnPause) = React.useState(() => false);
+
+  let togglePlayPause = () =>
+    if (isOnPause) {
+      onPlay();
+      setIsOnPause(_ => false);
+    } else {
+      onPause();
+      setIsOnPause(_ => true);
+    };
+
+  let reset = () => {
+    onReset();
+    setIsOnPause(_ => true);
+  };
+
+  <Card
+    style={ReactDOM.Style.make(
+      ~display="flex",
+      ~flexDirection="row",
+      ~justifyContent="center",
+      ~width="95%",
+      (),
+    )}>
+    <CardContent
+      style={ReactDOM.Style.make(
+        ~display="flex",
+        ~justifyContent="center",
+        ~justifyItems="center",
+        ~alignItems="center",
+        ~alignContent="center",
+        (),
+      )}>
+      <div style={ReactDOM.Style.make(~display="flex", ())}>
+        <IconButton color=`Primary onClick={_ => togglePlayPause()}>
+          <Icon> {isOnPause ? "play_arrow" : "pause"} </Icon>
+        </IconButton>
+      </div>
+      <div style={ReactDOM.Style.make(~width="10px", ())}></div>
+      <div
+        style={ReactDOM.Style.make(~display="flex", ())}>
+        <CircularProgressWithLabel
+          progress={min(100, Time.percentage(~current=time, ~total=limit))}
+          label={Time.format(time)}
+        />
+      </div>
+      <div style={ReactDOM.Style.make(~width="10px", ())}></div>
+      <div
+        style={ReactDOM.Style.make(
+          ~height="120%",
+          ~display="flex",
+          ~flexDirection="column",
+          ~justifyContent="space-between",
+          (),
+        )}>
+        <IconButton onClick={_ => ()}> <Icon> "settings" </Icon> </IconButton>
+        <IconButton color=`Secondary onClick={_ => reset()}>
+          <Icon> "replay" </Icon>
+        </IconButton>
+      </div>
+    </CardContent>
+  </Card>;
 };
