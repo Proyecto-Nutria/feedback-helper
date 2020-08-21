@@ -9,7 +9,7 @@ let make =
     ) => {
   open MaterialUi;
 
-  let (isOnPause, setIsOnPause) = React.useState(() => false);
+  let (isOnPause, setIsOnPause) = React.useState(() => true);
 
   let togglePlayPause = () =>
     if (isOnPause) {

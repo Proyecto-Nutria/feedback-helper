@@ -1,7 +1,7 @@
 [@react.component]
 let make = () => {
   let (gTime, setGTime) = React.useState(() => Time.newDuration());
-  let (isTimerActive, setIsTimerActive) = React.useState(() => true);
+  let (isTimerActive, setIsTimerActive) = React.useState(() => false);
   React.useEffect1(
     () => {
       let intervalId: Pervasives.ref(option(Js.Global.intervalId)) =
