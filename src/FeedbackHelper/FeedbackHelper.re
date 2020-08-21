@@ -2,7 +2,6 @@
 let make = () => {
   let (gTime, setGTime) = React.useState(() => Time.newDuration());
   let (isTimerActive, setIsTimerActive) = React.useState(() => false);
-
   React.useEffect1(
     () => {
       let intervalId: Pervasives.ref(option(Js.Global.intervalId)) =
@@ -42,14 +41,25 @@ let make = () => {
     setIsTimerActive(_ => false);
   };
 
-  <div>
+  <div
+    style={ReactDOM.Style.make(
+      ~width="100%",
+      ~height="100%",
+      ~display="flex",
+      ~flexDirection="column",
+      ~alignItems="center",
+      ~alignContent="center",
+      (),
+    )}>
+    <div style={ReactDOM.Style.make(~height="2%", ())} />
     <TimerView
-      limit={minutes: 45, seconds: 0}
+      limit={minutes: 0, seconds: 30}
       time=gTime
       onPlay
       onPause
       onReset
     />
+    <div style={ReactDOM.Style.make(~height="2%", ())} />
     <TextArea time=gTime />
   </div>;
 };

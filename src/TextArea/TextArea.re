@@ -1,12 +1,13 @@
 [@react.component]
-let make = (~time: Time.duration) => { 
+let make = (~time: Time.duration) => {
   open MaterialUi;
 
   let (text, setText) = React.useState(() => "");
 
   let handleChange = (e: ReactEvent.Form.t) => {
     ReactEvent.Form.persist(e);
-    let timeFormat = (time: Time.duration) => "[" ++ Time.format(time) ++ "] ";
+    let timeFormat = (time: Time.duration) =>
+      "[" ++ Time.format(time) ++ "] ";
     let currText: string = ReactEvent.Form.target(e)##value;
     let length = String.length(currText);
     if (length == 1) {
@@ -21,18 +22,23 @@ let make = (~time: Time.duration) => {
     };
   };
 
-  <div style={ReactDOM.Style.make(~padding="10px", ())}>
-    <Card>
-      <CardContent style={ReactDOM.Style.make(~display="flex", ())}>
-        <TextField
-          label="Feedback"->React.string
-          variant=`Outlined
-          multiline=true
-          style=ReactDOM.Style.make(~flexGrow="1", ())
-          onChange=handleChange
-          value={TextField.Value.string(text)}
-        />
-      </CardContent>
-    </Card>
-  </div>;
+  <Card
+    style={ReactDOM.Style.make(
+      ~display="flex",
+      ~width="95%",
+      ~justifyContent="center",
+      (),
+    )}>
+    <CardContent style={ReactDOM.Style.make(~width="100%", ())}>
+      <TextField
+        style={ReactDOM.Style.make(~width="100%", ())}
+        label={"Feedback"->React.string}
+        variant=`Outlined
+        multiline=true
+        onChange=handleChange
+        value={TextField.Value.string(text)}
+        rows={MaterialUi.TextField.Rows.int(16)}
+      />
+    </CardContent>
+  </Card>;
 };
