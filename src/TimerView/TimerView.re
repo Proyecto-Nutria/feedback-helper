@@ -40,6 +40,7 @@ let make =
           </div>
           <CircularProgressWithLabel
             progress={min(100, Time.percentage(~current=time, ~total=limit))}
+            label={Time.format(time)}
           />
         </CardContent>
       </Card>

@@ -1,7 +1,7 @@
 [@react.component]
 let make = () => {
   let (gTime, setGTime) = React.useState(() => Time.newDuration());
-  let (isTimerActive, setIsTimerActive) = React.useState(() => false);
+  let (isTimerActive, setIsTimerActive) = React.useState(() => true);
 
   React.useEffect1(
     () => {
@@ -44,7 +44,7 @@ let make = () => {
 
   <div>
     <TimerView
-      limit={minutes: 45, seconds: 0}
+      limit={minutes: 1, seconds: 0}
       time=gTime
       onPlay
       onPause

@@ -1,5 +1,5 @@
 [@react.component]
-let make = (~progress: int) => {
+let make = (~progress: int, ~label: string) => {
   MaterialUi.(
     <Box
       style={ReactDOM.Style.make(
@@ -7,7 +7,12 @@ let make = (~progress: int) => {
         ~display="inline-flex",
         (),
       )}>
-      <CircularProgress variant=`Static value={Number.int(progress)} />
+      <CircularProgress
+        variant=`Static
+        value={Number.int(progress)}
+        size={CircularProgress.Size.int(100)}
+        thickness=MaterialUi_Types.Number.int(5)
+      />
       <Box
         style={ReactDOM.Style.make(
           ~top="0",
@@ -20,8 +25,11 @@ let make = (~progress: int) => {
           ~justifyContent="center",
           (),
         )}>
-        <Typography variant=`Caption color=`TextSecondary component={Typography.Component.string("div")}>
-          {string_of_int(progress) ++ "%"}
+        <Typography
+          variant=`H5
+          color=`TextSecondary
+          component={Typography.Component.string("div")}>
+          label->React.string
         </Typography>
       </Box>
     </Box>
