@@ -19,19 +19,20 @@
   "dependencies": {
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",
+    "bs-webapi": "^0.19.1",
     "react": "^16.8.1",
     "react-dom": "^16.8.1",
     "reason-react": ">=0.7.1"
   },
   "devDependencies": {
+    "@jsiebern/bs-material-ui": "^2.0.2",
     "bs-platform": "^8.2.0",
-    "webpack": "^4.0.1",
-    "webpack-cli": "^3.1.1",
-    "webpack-dev-server": "^3.1.8",
+    "css-loader": "^3.2.0",
+    "fastpack": "^0.8.4",
     "html-webpack-plugin": "^3.2.0",
     "style-loader": "^1.0.0",
-    "css-loader": "^3.2.0",
-    "@jsiebern/bs-material-ui": "^2.0.2",
-    "fastpack": "^0.8.4"
+    "webpack": "^4.0.1",
+    "webpack-cli": "^3.1.1",
+    "webpack-dev-server": "^3.1.8"
   }
 }
