@@ -28,3 +28,11 @@ let format = (d: duration): string => {
   ++ ":"
   ++ Util.lfill(string_of_int(d.seconds), 2, '0');
 };
+
+let toSeconds = (d: duration): int => {
+  d.seconds + d.minutes * 60;
+};
+
+let toMilliseconds = (d: duration): int => {
+  toSeconds(d) * 1000;
+};

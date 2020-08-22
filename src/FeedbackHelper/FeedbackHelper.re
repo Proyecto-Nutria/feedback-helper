@@ -2,6 +2,8 @@
 let make = () => {
   let (gTime, setGTime) = React.useState(() => Time.newDuration());
   let (isTimerActive, setIsTimerActive) = React.useState(() => false);
+  let (startingPointInTime, setStartingPointInTime) =
+    React.useState(() => Js.Date.now());
 
   React.useEffect1(
     () => {
@@ -11,10 +13,17 @@ let make = () => {
         intervalId :=
           Some(
             Js.Global.setInterval(
-              () =>
-                setGTime(oldTime =>
-                  Time.add(oldTime, {minutes: 0, seconds: 1})
-                ),
+              () => {
+                setGTime(_ =>
+                  Time.normalize({
+                    minutes: 0,
+                    seconds:
+                      int_of_float(
+                        (Js.Date.now() -. startingPointInTime) /. 1000.0,
+                      ),
+                  })
+                )
+              },
               1000,
             ),
           );
@@ -35,8 +44,16 @@ let make = () => {
     [|isTimerActive|],
   );
 
-
-  let onPlay = (): unit => setIsTimerActive(_ => true);
+  let onPlay = (): unit => {
+    if (gTime == Time.newDuration()) {
+      setStartingPointInTime(_ => Js.Date.now());
+    } else {
+      setStartingPointInTime(_ =>
+        Js.Date.now() -. float_of_int(Time.toMilliseconds(gTime))
+      );
+    };
+    setIsTimerActive(_ => true);
+  };
   let onPause = (): unit => setIsTimerActive(_ => false);
   let onReset = (): unit => {
     setGTime(_ => Time.newDuration());
