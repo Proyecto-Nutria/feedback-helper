@@ -2,6 +2,7 @@
 let make = () => {
   let (gTime, setGTime) = React.useState(() => Time.newDuration());
   let (isTimerActive, setIsTimerActive) = React.useState(() => false);
+
   React.useEffect1(
     () => {
       let intervalId: Pervasives.ref(option(Js.Global.intervalId)) =
@@ -20,7 +21,7 @@ let make = () => {
       } else if (!isTimerActive) {
         let _ =
           switch (intervalId^) {
-          | Some(a) => Some(() => Js.Global.clearInterval(a))
+          | Some(a) => Some(() => {Js.Global.clearInterval(a)})
           | None => None
           };
         ();
@@ -33,6 +34,7 @@ let make = () => {
     },
     [|isTimerActive|],
   );
+
 
   let onPlay = (): unit => setIsTimerActive(_ => true);
   let onPause = (): unit => setIsTimerActive(_ => false);

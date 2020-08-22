@@ -16,7 +16,8 @@
   "namespace": true,
   "bs-dependencies": [
     "reason-react",
-    "@jsiebern/bs-material-ui"
+    "@jsiebern/bs-material-ui",
+    "bs-webapi"
   ],
   "refmt": 3
 }
