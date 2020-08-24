@@ -19,3 +19,11 @@ let int_from_string = (str: string): int =>
   } else {
     int_of_string(str);
   };
+
+let exactMatch = (pattern: string, str: string): bool => {
+  let match = Js.String.match(Js.Re.fromString(pattern), str);
+  switch (match) {
+  | Some(arr) => arr[0] == str
+  | None => false
+  };
+};
