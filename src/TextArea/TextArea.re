@@ -1,12 +1,12 @@
 [@react.component]
-let make = (~time: Time.duration) => {
+let make = (~time: Time.t) => {
   open MaterialUi;
 
   let (text, setText) = React.useState(() => "");
 
   let handleChange = (e: ReactEvent.Form.t) => {
     ReactEvent.Form.persist(e);
-    let timeFormat = (time: Time.duration) =>
+    let timeFormat = (time: Time.t) =>
       "[" ++ Time.format(time) ++ "] ";
     let currText: string = ReactEvent.Form.target(e)##value;
     let length = String.length(currText);

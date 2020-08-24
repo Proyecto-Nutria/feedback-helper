@@ -1,21 +1,21 @@
-type duration = {
+type t = {
   minutes: int,
   seconds: int,
 };
 
-let newDuration = (): duration => {minutes: 0, seconds: 0};
+let newDuration = (): t => {minutes: 0, seconds: 0};
 
-let normalize = (d: duration): duration => {
+let normalize = (d: t): t => {
   let minutes = d.minutes + d.seconds / 60;
   let seconds = d.seconds mod 60;
   {minutes, seconds};
 };
 
-let add = (a: duration, b: duration): duration => {
+let add = (a: t, b: t): t => {
   normalize({minutes: a.minutes + b.minutes, seconds: a.seconds + b.seconds});
 };
 
-let percentage = (~current: duration, ~total: duration): int => {
+let percentage = (~current: t, ~total: t): int => {
   let totalSeconds = total.seconds + total.minutes * 60;
   let currentSeconds = current.seconds + current.minutes * 60;
   int_of_float(
@@ -23,16 +23,16 @@ let percentage = (~current: duration, ~total: duration): int => {
   );
 };
 
-let format = (d: duration): string => {
+let format = (d: t): string => {
   Util.lfill(string_of_int(d.minutes), 2, '0')
   ++ ":"
   ++ Util.lfill(string_of_int(d.seconds), 2, '0');
 };
 
-let toSeconds = (d: duration): int => {
+let toSeconds = (d: t): int => {
   d.seconds + d.minutes * 60;
 };
 
-let toMilliseconds = (d: duration): int => {
+let toMilliseconds = (d: t): int => {
   toSeconds(d) * 1000;
 };
