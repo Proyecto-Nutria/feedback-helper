@@ -3,9 +3,9 @@ let make = () => {
   let (gTime, setGTime) = React.useState(() => Time.newDuration());
   let (endTime, setEndTime) =
     React.useState(() => ({minutes: 45, seconds: 0}: Time.t));
-  let (isTimerActive, setIsTimerActive) = React.useState(() => false);
   let (startingPointInTime, setStartingPointInTime) =
     React.useState(() => Js.Date.now());
+  let (isTimerActive, setIsTimerActive) = React.useState(() => false);
 
   React.useEffect1(
     () => {
