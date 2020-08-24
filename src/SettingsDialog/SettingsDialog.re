@@ -42,9 +42,9 @@ let make =
               setNewTime(old =>
                 {
                   minutes:
-                    Util.int_from_string(
+                    abs(Util.int_from_string(
                       ReactEvent.Form.target(event)##value,
-                    ),
+                    )),
                   seconds: old.seconds,
                 }
               );
@@ -62,9 +62,9 @@ let make =
               setNewTime(old =>
                 {
                   seconds:
-                    Util.int_from_string(
+                    abs(Util.int_from_string(
                       ReactEvent.Form.target(event)##value,
-                    ),
+                    )),
                   minutes: old.minutes,
                 }
               );
@@ -92,9 +92,9 @@ let make =
               setNewEndTime(old =>
                 {
                   minutes:
-                    Util.int_from_string(
+                    abs(Util.int_from_string(
                       ReactEvent.Form.target(event)##value,
-                    ),
+                    )),
                   seconds: old.seconds,
                 }
               );
@@ -113,9 +113,9 @@ let make =
               setNewEndTime(old =>
                 {
                   seconds:
-                    Util.int_from_string(
+                    abs(Util.int_from_string(
                       ReactEvent.Form.target(event)##value,
-                    ),
+                    )),
                   minutes: old.minutes,
                 }
               );
