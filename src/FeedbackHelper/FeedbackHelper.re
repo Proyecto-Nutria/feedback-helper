@@ -1,6 +1,8 @@
 [@react.component]
 let make = () => {
   let (gTime, setGTime) = React.useState(() => Time.newDuration());
+  let (endTime, setEndTime) =
+    React.useState(() => ({minutes: 45, seconds: 0}: Time.t));
   let (isTimerActive, setIsTimerActive) = React.useState(() => false);
   let (startingPointInTime, setStartingPointInTime) =
     React.useState(() => Js.Date.now());
@@ -56,8 +58,12 @@ let make = () => {
   };
   let onPause = (): unit => setIsTimerActive(_ => false);
   let onReset = (): unit => {
+    onPause();
     setGTime(_ => Time.newDuration());
-    setIsTimerActive(_ => false);
+  };
+  let updateTimes = (~newTime: Time.t, ~newEndTime: Time.t): unit => {
+    setGTime(_ => newTime);
+    setEndTime(_ => newEndTime);
   };
 
   <div
@@ -72,7 +78,8 @@ let make = () => {
     )}>
     <div style={ReactDOM.Style.make(~height="2%", ())} />
     <TimerView
-      limit={minutes: 45, seconds: 0}
+      onUpdate=updateTimes
+      endTime
       time=gTime
       onPlay
       onPause
