@@ -1,7 +1,12 @@
+[@bs.module "./Clipboard.js"]
+external copyToClipboard: (~formattedText: string, ~plainText: string) => unit =
+  "default";
+
 [@react.component]
 let make = (~time: Time.t) => {
   let (text, setText) = React.useState(() => "");
   open Webapi;
+
   let scrollableDiv = React.createRef();
 
   let fullScrollBottom = (): unit => {
@@ -52,6 +57,16 @@ let make = (~time: Time.t) => {
       setText(_ => currText);
     };
   };
+
+  let instructions = {|
+  Prepend your comment with "+" if it is a positive comment or with "-" if it is a negative comment
+
+  Example:
+  
+  [02:00] + Interesting introduction of herself
+  [05:00] / At this point I finished explaining the problem to the interviewee
+  [06:20] - Gave an idea before asking fundamental questions
+  |};
   MaterialUi.(
     <div
       style={ReactDOM.Style.make(
@@ -85,9 +100,16 @@ let make = (~time: Time.t) => {
                 multiline=true
                 onChange=handleChange
                 value={TextField.Value.string(text)}
+                placeholder=instructions
               />
               <div style={ReactDOM.Style.make(~height="20px", ())} />
               <Button
+                onClick={_ =>
+                  copyToClipboard(
+                    ~formattedText=Util.prettifyText(text),
+                    ~plainText=text,
+                  )
+                }
                 variant=`Contained
                 color=`Primary
                 style={ReactDOM.Style.make(~width="100%", ())}>

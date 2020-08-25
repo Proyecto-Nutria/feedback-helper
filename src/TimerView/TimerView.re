@@ -72,7 +72,7 @@ let make =
       <div style={ReactDOM.Style.make(~width="10px", ())} />
       <div
         style={ReactDOM.Style.make(
-          ~height="120%",
+          ~height="110%",
           ~display="flex",
           ~flexDirection="column",
           ~justifyContent="space-between",
