@@ -74,9 +74,9 @@ let make = () => {
       ~flexDirection="column",
       ~alignItems="center",
       ~alignContent="center",
+      ~overflowY="auto",
       (),
     )}>
-    <div style={ReactDOM.Style.make(~height="2%", ())} />
     <TimerView
       onUpdate=updateTimes
       endTime
@@ -85,7 +85,8 @@ let make = () => {
       onPause
       onReset
     />
-    <div style={ReactDOM.Style.make(~height="2%", ())} />
+    <div style={ReactDOM.Style.make(~height="10px", ())} />
     <TextArea time=gTime />
+    <div style={ReactDOM.Style.make(~height="15px", ())} />
   </div>;
 };

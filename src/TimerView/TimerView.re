@@ -45,21 +45,10 @@ let make =
     setIsSettingsDialogOpen(_ => false);
   };
 
-  <Card
-    style={ReactDOM.Style.make(
-      ~display="flex",
-      ~flexDirection="row",
-      ~justifyContent="center",
-      ~width="95%",
-      (),
-    )}>
-    <SettingsDialog
-      _open=isSettingsDialogOpen
-      onSave=saveSettings
-      currentTime=time
-      currentEndTime=endTime
-    />
-    <CardContent
+  <AppBar
+    position=`Static style={ReactDOM.Style.make(~background="white", ())}>
+    <div style={ReactDOM.Style.make(~height="10px", ())} />
+    <div
       style={ReactDOM.Style.make(
         ~display="flex",
         ~justifyContent="center",
@@ -96,6 +85,13 @@ let make =
           <Icon> "replay" </Icon>
         </IconButton>
       </div>
-    </CardContent>
-  </Card>;
+    </div>
+    <div style={ReactDOM.Style.make(~height="10px", ())} />
+    <SettingsDialog
+      _open=isSettingsDialogOpen
+      onSave=saveSettings
+      currentTime=time
+      currentEndTime=endTime
+    />
+  </AppBar>;
 };

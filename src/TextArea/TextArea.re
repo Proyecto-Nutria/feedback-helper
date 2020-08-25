@@ -1,12 +1,24 @@
 [@react.component]
 let make = (~time: Time.t) => {
-  open MaterialUi;
-
   let (text, setText) = React.useState(() => "");
+  open Webapi;
+  let scrollableDiv = React.createRef();
+
+  let fullScrollBottom = (): unit => {
+    let nullableCurrElem = Js.Nullable.toOption(scrollableDiv.current);
+    switch (nullableCurrElem) {
+    | Some(currElem) =>
+      Dom.Element.setScrollTop(
+        currElem,
+        float_of_int(Dom.Element.scrollHeight(currElem)),
+      )
+    | None => ()
+    };
+  };
 
   let handleChange = (e: ReactEvent.Form.t) => {
     ReactEvent.Form.persist(e);
-
+    fullScrollBottom();
     let timeFormat = (time: Time.t) => "[" ++ Time.format(time) ++ "] ";
     let currText: string = ReactEvent.Form.target(e)##value;
     let length = String.length(currText);
@@ -40,24 +52,52 @@ let make = (~time: Time.t) => {
       setText(_ => currText);
     };
   };
-
-  <Card
-    style={ReactDOM.Style.make(
-      ~display="flex",
-      ~width="95%",
-      ~justifyContent="center",
-      (),
-    )}>
-    <CardContent style={ReactDOM.Style.make(~width="100%", ())}>
-      <TextField
-        style={ReactDOM.Style.make(~width="100%", ())}
-        label={"Feedback"->React.string}
-        variant=`Outlined
-        multiline=true
-        onChange=handleChange
-        value={TextField.Value.string(text)}
-        rows={MaterialUi.TextField.Rows.int(16)}
-      />
-    </CardContent>
-  </Card>;
+  MaterialUi.(
+    <div
+      style={ReactDOM.Style.make(
+        ~display="flex",
+        ~flex="1",
+        ~width="98%",
+        ~overflowY="auto",
+        ~alignItems="center",
+        ~flexDirection="column",
+        ~minHeight="0",
+        (),
+      )}>
+      <div
+        ref={ReactDOMRe.Ref.domRef(scrollableDiv)}
+        style={ReactDOM.Style.make(
+          ~display="flex",
+          ~flex="1",
+          ~overflowY="auto",
+          ~minHeight="0",
+          ~width="100%",
+          ~justifyContent="center",
+          (),
+        )}>
+        <div style={ReactDOM.Style.make(~width="100%", ())}>
+          <Card>
+            <CardContent>
+              <TextField
+                style={ReactDOM.Style.make(~width="100%", ())}
+                label={"Feedback"->React.string}
+                variant=`Outlined
+                multiline=true
+                onChange=handleChange
+                value={TextField.Value.string(text)}
+              />
+              <div style={ReactDOM.Style.make(~height="20px", ())} />
+              <Button
+                variant=`Contained
+                color=`Primary
+                style={ReactDOM.Style.make(~width="100%", ())}>
+                "Copy to clipboard"
+              </Button>
+              <div style={ReactDOM.Style.make(~height="10px", ())} />
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    </div>
+  );
 };
