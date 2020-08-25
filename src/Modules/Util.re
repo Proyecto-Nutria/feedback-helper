@@ -27,3 +27,34 @@ let exactMatch = (pattern: string, str: string): bool => {
   | None => false
   };
 };
+
+let positiveFormat = (comment: string): string => {
+  "<span style='background: lightgreen'>" ++ comment ++ "</span>";
+};
+
+let negativeFormat = (comment: string): string => {
+  "<span style='background: red; color: white;'>" ++ comment ++ "</span>";
+};
+
+let matchRegex = (pattern: string, str: string): bool => {
+  let match = Js.String.match(Js.Re.fromString(pattern), str);
+  switch (match) {
+  | Some(_) => true
+  | None => false
+  };
+};
+
+let prettifyText = (text: string): string => {
+  let lines = Js.String.split("\n", text);
+  let ans = ref("");
+  for (i in 0 to Array.length(lines) - 1) {
+    if (matchRegex("\\s*\\[\\d+:\\d+\\]\\s*\\+\\.*", lines[i])) {
+      ans := ans^ ++ positiveFormat(lines[i]) ++ "<br/>";
+    } else if (matchRegex("\\s*\\[\\d+:\\d+\\]\\s*\\-\\.*", lines[i])) {
+      ans := ans^ ++ negativeFormat(lines[i]) ++ "<br/>";
+    } else {
+      ans := ans^ ++ lines[i] ++ "<br/>";
+    };
+  };
+  ans^;
+};
