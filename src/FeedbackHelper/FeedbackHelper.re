@@ -6,6 +6,7 @@ let make = () => {
   let (startingPointInTime, setStartingPointInTime) =
     React.useState(() => Js.Date.now());
   let (isTimerActive, setIsTimerActive) = React.useState(() => false);
+  let (darkTheme, setDarkTheme) = React.useState(() => false);
 
   React.useEffect1(
     () => {
@@ -65,28 +66,47 @@ let make = () => {
     setGTime(_ => newTime);
     setEndTime(_ => newEndTime);
   };
-
-  <div
-    style={ReactDOM.Style.make(
-      ~width="100%",
-      ~height="100%",
-      ~display="flex",
-      ~flexDirection="column",
-      ~alignItems="center",
-      ~alignContent="center",
-      ~overflowY="auto",
-      (),
-    )}>
-    <TimerView
-      onUpdate=updateTimes
-      endTime
-      time=gTime
-      onPlay
-      onPause
-      onReset
-    />
-    <div style={ReactDOM.Style.make(~height="10px", ())} />
-    <TextArea time=gTime />
-    <div style={ReactDOM.Style.make(~height="15px", ())} />
-  </div>;
+  open MaterialUi;
+  let themeOptions = ref(ThemeOptions.make());
+  if (darkTheme) {
+    let primary = ThemeOptions.Primary.make(~main="#EA80FC", ());
+    let secondary = ThemeOptions.Secondary.make(~main="#ffbd69", ());
+    let paletteOptions =
+      ThemeOptions.PaletteOptions.make(
+        ~_type="dark",
+        ~primary,
+        ~secondary,
+        (),
+      );
+    themeOptions := ThemeOptions.make(~palette=paletteOptions, ());
+  };
+  let theme = Theme.create(themeOptions^);
+  <ThemeProvider theme>
+    <div
+      style={ReactDOM.Style.make(
+        ~width="100%",
+        ~height="100%",
+        ~display="flex",
+        ~flexDirection="column",
+        ~alignItems="center",
+        ~alignContent="center",
+        ~overflowY="auto",
+        ~background=darkTheme ? "#575757" : "#A9A9A9",
+        (),
+      )}>
+      <TimerView
+        onUpdate=updateTimes
+        endTime
+        time=gTime
+        onPlay
+        onPause
+        onReset
+      />
+      <Switch onChange={_ => setDarkTheme(old => !old)}>
+        "swith theme"->React.string
+      </Switch>
+      <TextArea time=gTime />
+      <div style={ReactDOM.Style.make(~height="15px", ())} />
+    </div>
+  </ThemeProvider>;
 };

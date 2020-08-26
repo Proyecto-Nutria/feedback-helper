@@ -45,53 +45,57 @@ let make =
     setIsSettingsDialogOpen(_ => false);
   };
 
-  <AppBar
-    position=`Static style={ReactDOM.Style.make(~background="white", ())}>
-    <div style={ReactDOM.Style.make(~height="10px", ())} />
-    <div
-      style={ReactDOM.Style.make(
-        ~display="flex",
-        ~justifyContent="center",
-        ~justifyItems="center",
-        ~alignItems="center",
-        ~alignContent="center",
-        (),
-      )}>
-      <div style={ReactDOM.Style.make(~display="flex", ())}>
-        <IconButton color=`Primary onClick={_ => togglePlayPause()}>
-          <Icon> {isOnPause ? "play_arrow" : "pause"} </Icon>
-        </IconButton>
-      </div>
-      <div style={ReactDOM.Style.make(~width="10px", ())} />
-      <div style={ReactDOM.Style.make(~display="flex", ())}>
-        <CircularProgressWithLabel
-          progress={min(100, Time.percentage(~current=time, ~total=endTime))}
-          label={Time.format(time)}
-        />
-      </div>
-      <div style={ReactDOM.Style.make(~width="10px", ())} />
+  <Card style={ReactDOM.Style.make(~width="98%", ())}>
+    <CardContent style={ReactDOM.Style.make(~paddingBottom="8px", ())}>
       <div
         style={ReactDOM.Style.make(
-          ~height="110%",
+          ~height="100px",
           ~display="flex",
-          ~flexDirection="column",
-          ~justifyContent="space-between",
+          ~justifyContent="center",
+          ~justifyItems="center",
+          ~alignItems="center",
+          ~alignContent="center",
           (),
         )}>
-        <IconButton onClick={_ => openSettings()}>
-          <Icon> "settings" </Icon>
-        </IconButton>
-        <IconButton color=`Secondary onClick={_ => reset()}>
-          <Icon> "replay" </Icon>
-        </IconButton>
+        <div style={ReactDOM.Style.make(~display="flex", ())}>
+          <IconButton color=`Primary onClick={_ => togglePlayPause()}>
+            <Icon> {isOnPause ? "play_arrow" : "pause"} </Icon>
+          </IconButton>
+        </div>
+        <div style={ReactDOM.Style.make(~width="10px", ())} />
+        <div style={ReactDOM.Style.make(~display="flex", ())}>
+          <CircularProgressWithLabel
+            progress={min(
+              100,
+              Time.percentage(~current=time, ~total=endTime),
+            )}
+            label={Time.format(time)}
+          />
+        </div>
+        <div style={ReactDOM.Style.make(~width="10px", ())} />
+        <div
+          style={ReactDOM.Style.make(
+            ~height="120%",
+            ~display="flex",
+            ~flexDirection="column",
+            ~justifyContent="space-between",
+            (),
+          )}>
+          <IconButton onClick={_ => openSettings()}>
+            <Icon> "settings" </Icon>
+          </IconButton>
+          <IconButton color=`Secondary onClick={_ => reset()}>
+            <Icon> "replay" </Icon>
+          </IconButton>
+        </div>
       </div>
-    </div>
-    <div style={ReactDOM.Style.make(~height="10px", ())} />
-    <SettingsDialog
-      _open=isSettingsDialogOpen
-      onSave=saveSettings
-      currentTime=time
-      currentEndTime=endTime
-    />
-  </AppBar>;
+      <div style={ReactDOM.Style.make(~height="10px", ())} />
+      <SettingsDialog
+        _open=isSettingsDialogOpen
+        onSave=saveSettings
+        currentTime=time
+        currentEndTime=endTime
+      />
+    </CardContent>
+  </Card>;
 };
