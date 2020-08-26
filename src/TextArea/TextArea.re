@@ -148,6 +148,7 @@ let make = (~time: Time.t) => {
                     variant=`Outlined
                     placeholder="Nutria"
                     style={ReactDOM.Style.make(
+                      ~color="white",
                       ~flex="1",
                       ~display="flex",
                       (),
