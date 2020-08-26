@@ -2,7 +2,7 @@
   "name": "feedback-helper",
   "version": "0.0.1",
   "scripts": {
-    "build": "bsb -make-world && fpack build ./src/Index.bs.js --development && yarn clean",
+    "build": "bsb -make-world && fpack build ./src/Index.bs.js --dev && yarn clean",
     "start": "bsb -make-world -w -ws _ ",
     "clean": "bsb -clean-world",
     "webpack": "webpack -w",
@@ -34,6 +34,9 @@
     "style-loader": "^1.0.0",
     "webpack": "^4.0.1",
     "webpack-cli": "^3.1.1",
-    "webpack-dev-server": "^3.1.8"
+    "webpack-dev-server": "^3.1.8",
+    "uglify-js": "^3.10.2",
+    "babel": "^6.23.0",
+    "babel-preset-env": "^1.7.0"
   }
 }

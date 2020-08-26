@@ -4,7 +4,9 @@ external copyToClipboard: (~formattedText: string, ~plainText: string) => unit =
 
 [@react.component]
 let make = (~time: Time.t) => {
-  let (text, setText) = React.useState(() => "");
+  let (text, setText) = React.useState(_ => "");
+  let (interviewerName, setInterviewerName) = React.useState(_ => "");
+  let (problems, setProblems) = React.useState(_ => "");
   open Webapi;
 
   let scrollableDiv = React.createRef();
@@ -21,11 +23,15 @@ let make = (~time: Time.t) => {
     };
   };
 
+  let getStringValue = (e: ReactEvent.Form.t): string => {
+    ReactEvent.Form.target(e)##value;
+  };
+
   let handleChange = (e: ReactEvent.Form.t) => {
     ReactEvent.Form.persist(e);
     fullScrollBottom();
     let timeFormat = (time: Time.t) => "[" ++ Time.format(time) ++ "] ";
-    let currText: string = ReactEvent.Form.target(e)##value;
+    let currText = getStringValue(e);
     let length = String.length(currText);
     let lastLine = ref("");
     let lastEnterPos = ref(-1);
@@ -58,11 +64,33 @@ let make = (~time: Time.t) => {
     };
   };
 
+  let getInfo = (): string => {
+    let problemsFormatted =
+      Js.Array.joinWith("\n", Js.String.split(";", problems));
+    "Interviewer: "
+    ++ interviewerName
+    ++ "\n\n"
+    ++ "Problems: \n"
+    ++ problemsFormatted
+    ++ "\n\n";
+  };
+
+  let getFormattedInfo = (): string => {
+    let problemsFormatted =
+      Js.Array.joinWith("\n", Js.String.split(";", problems));
+    "<b>Interviewer:</b> "
+    ++ interviewerName
+    ++ "\n\n"
+    ++ "<b>Problems:</b>\n"
+    ++ problemsFormatted
+    ++ "\n\n";
+  };
+
   let instructions = {|
   Prepend your comment with "+" if it is a positive comment or with "-" if it is a negative comment
 
   Example:
-  
+
   [02:00] + Interesting introduction of herself
   [05:00] / At this point I finished explaining the problem to the interviewee
   [06:20] - Gave an idea before asking fundamental questions
@@ -93,6 +121,65 @@ let make = (~time: Time.t) => {
         <div style={ReactDOM.Style.make(~width="100%", ())}>
           <Card>
             <CardContent>
+              <div
+                style={ReactDOM.Style.make(
+                  ~display="flex",
+                  ~flex="1",
+                  ~flexWrap="wrap",
+                  ~paddingBottom="5px",
+                  (),
+                )}>
+                <div
+                  style={ReactDOM.Style.make(
+                    ~display="flex",
+                    ~flexGrow="1",
+                    ~justifyContent="center",
+                    ~alignItems="center",
+                    ~padding="2px 3px 7px 3px",
+                    (),
+                  )}>
+                  <TextField
+                    value={TextField.Value.string(interviewerName)}
+                    onChange={e => {
+                      ReactEvent.Form.persist(e);
+                      setInterviewerName(_ => getStringValue(e));
+                    }}
+                    label={"Interviewer"->React.string}
+                    variant=`Outlined
+                    placeholder="Nutria"
+                    style={ReactDOM.Style.make(
+                      ~flex="1",
+                      ~display="flex",
+                      (),
+                    )}
+                  />
+                </div>
+                <div
+                  style={ReactDOM.Style.make(
+                    ~display="flex",
+                    ~flexGrow="50",
+                    ~justifyContent="center",
+                    ~alignItems="center",
+                    ~padding="2px 3px 7px 3px",
+                    (),
+                  )}>
+                  <TextField
+                    value={TextField.Value.string(problems)}
+                    onChange={e => {
+                      ReactEvent.Form.persist(e);
+                      setProblems(_ => getStringValue(e));
+                    }}
+                    label={"Problems"->React.string}
+                    variant=`Outlined
+                    placeholder="link1;link2;my own description"
+                    style={ReactDOM.Style.make(
+                      ~display="flex",
+                      ~flex="1",
+                      (),
+                    )}
+                  />
+                </div>
+              </div>
               <TextField
                 style={ReactDOM.Style.make(~width="100%", ())}
                 label={"Feedback"->React.string}
@@ -106,8 +193,9 @@ let make = (~time: Time.t) => {
               <Button
                 onClick={_ =>
                   copyToClipboard(
-                    ~formattedText=Util.prettifyText(text),
-                    ~plainText=text,
+                    ~formattedText=
+                      Util.prettifyText(getFormattedInfo() ++ "<b>Feedback:</b>\n" ++ text),
+                    ~plainText=getInfo() ++ "Feedback:\n" ++ text,
                   )
                 }
                 variant=`Contained

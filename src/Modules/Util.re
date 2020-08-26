@@ -58,3 +58,10 @@ let prettifyText = (text: string): string => {
   };
   ans^;
 };
+
+let stringFromOption = (str: option(string)): string => {
+  switch (str) {
+  | Some(x) => x
+  | None => ""
+  };
+};
