@@ -35,6 +35,7 @@ let make = (~time: Time.t) => {
     let length = String.length(currText);
     let lastLine = ref("");
     let lastEnterPos = ref(-1);
+
     if (String.contains(currText, '\n')) {
       lastEnterPos := String.rindex(currText, '\n');
       if (lastEnterPos^ == length - 1) {
@@ -56,7 +57,7 @@ let make = (~time: Time.t) => {
     } else if (length == 1) {
       let ans = String.concat("", [timeFormat(time), currText]);
       setText(_ => ans);
-    } else if (currText.[length - 1] == '\n') {
+    } else if (length > 0 && currText.[length - 1] == '\n') {
       let ans = String.concat("", [currText, timeFormat(time)]);
       setText(_ => ans);
     } else {
