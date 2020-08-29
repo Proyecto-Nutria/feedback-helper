@@ -184,7 +184,7 @@ function TextArea(Props) {
                                                               return e.target.value;
                                                             }));
                                               }),
-                                            placeholder: "link1;link2;my own description",
+                                            placeholder: "link1;link2;my own description (separate with semicolon)",
                                             value: MaterialUi_TextField.Value.string(problems),
                                             variant: "outlined"
                                           }))), React.createElement(Core.TextField, {

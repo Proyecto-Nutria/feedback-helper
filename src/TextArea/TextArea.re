@@ -173,7 +173,7 @@ let make = (~time: Time.t) => {
                     }}
                     label={"Problems"->React.string}
                     variant=`Outlined
-                    placeholder="link1;link2;my own description"
+                    placeholder="link1;link2;my own description (separate with semicolon)"
                     style={ReactDOM.Style.make(
                       ~display="flex",
                       ~flex="1",
