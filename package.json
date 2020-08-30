@@ -5,8 +5,6 @@
     "build": "bsb -make-world && fpack build ./src/Index.bs.js --dev && yarn clean",
     "start": "bsb -make-world -w -ws _ ",
     "clean": "bsb -clean-world",
-    "webpack": "webpack -w",
-    "webpack:production": "NODE_ENV=production webpack",
     "server": "webpack-dev-server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
