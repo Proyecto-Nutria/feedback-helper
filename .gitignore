@@ -3,8 +3,8 @@
 .bsb.lock
 .merlin
 /lib/bs/
-/bundleOutput/
 npm-debug.log
+*.bs.js
 
 # Logs
 logs
