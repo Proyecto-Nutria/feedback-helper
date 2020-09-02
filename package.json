@@ -1,6 +1,7 @@
 {
   "name": "feedback-helper",
   "version": "0.0.1",
+  "homepage": "https://proyecto-nutria.github.io/feedback-helper",
   "scripts": {
     "build": "bsb -make-world && fpack build ./src/Index.bs.js --dev && yarn clean",
     "start": "bsb -make-world -w -ws _ ",
