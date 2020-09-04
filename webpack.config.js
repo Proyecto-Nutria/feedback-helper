@@ -1,6 +1,18 @@
 const path = require("path")
 const HtmlWebpackPlugin = require("html-webpack-plugin")
+const webpack = require("webpack");
 const outputDir = path.join(__dirname, ".")
+const PORT = process.env.PORT || 8000;
+const URL = `http://localhost:${PORT}/`;
+const subdomain = 'feedback-helper';
+
+const pathRewrite = {}
+pathRewrite['^/feedback-helper'] = '';
+const proxy = {}
+proxy[`/${subdomain}/*`] = {
+  target: URL,
+  pathRewrite: pathRewrite
+};
 
 module.exports = {
   entry: "./src/Index.bs.js",
@@ -13,16 +25,20 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: "index.html",
-      inject: true
+      inject: false
+    }),
+    new webpack.DefinePlugin({
+      'process.env.URL': JSON.stringify(process.env.URL || `${URL}${subdomain}`)
     })
   ],
   devServer: {
-    publicPath: 'http://localshot:8000/feedback-helper',
+    publicPath: `/${subdomain}`,
     compress: true,
     contentBase: outputDir,
-    port: process.env.PORT || 8000,
+    port: PORT,
     historyApiFallback: true,
-    host: "0.0.0.0"
+    host: "0.0.0.0",
+    proxy: proxy
   },
   module: {
     rules: [

@@ -17,6 +17,8 @@ jobs:
         run: |
           yarn
           yarn build
+        env:
+          URL: https://proyecto-nutria.github.io/feedback-helper/
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@3.5.9
