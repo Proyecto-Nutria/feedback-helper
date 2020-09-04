@@ -13,10 +13,11 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: "index.html",
-      inject: false
+      inject: true
     })
   ],
   devServer: {
+    publicPath: 'http://localshot:8000/feedback-helper',
     compress: true,
     contentBase: outputDir,
     port: process.env.PORT || 8000,
