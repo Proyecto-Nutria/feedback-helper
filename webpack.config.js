@@ -1,6 +1,6 @@
 const path = require("path")
 const HtmlWebpackPlugin = require("html-webpack-plugin")
-const outputDir = path.join(__dirname, "build/")
+const outputDir = path.join(__dirname, ".")
 
 module.exports = {
   entry: "./src/Index.bs.js",

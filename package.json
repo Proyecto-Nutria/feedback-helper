@@ -1,12 +1,11 @@
 {
   "name": "feedback-helper",
   "version": "0.0.1",
-  "homepage": "https://proyecto-nutria.github.io/feedback-helper",
   "scripts": {
-    "build": "bsb -make-world && fpack build ./src/Index.bs.js --dev && yarn clean",
-    "start": "bsb -make-world -w -ws _ ",
+    "build": "bsb -make-world && URL=https://proyecto-nutria.github.io/feedback-helper fpack build ./src/Index.bs.js --dev && yarn clean",
+    "start": "URL=http://localhost:8000 bsb -make-world -w -ws _ ",
     "clean": "bsb -clean-world",
-    "server": "webpack-dev-server",
+    "server": "URL=http://localhost:8000 webpack-dev-server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
