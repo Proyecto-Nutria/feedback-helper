@@ -80,12 +80,14 @@ let make = (~time: Time.t) => {
     let problemsArray = Js.String.split(";", problems);
     for (i in 0 to Array.length(problemsArray) - 1) {
       if (Util.isUrl(problemsArray[i])) {
-        problemsArray[i] = "<li>" ++ Util.urlFormat(problemsArray[i]) ++ "</li>";
+        problemsArray[i] =
+          "<li>" ++ Util.urlFormat(problemsArray[i]) ++ "</li>";
       } else {
         problemsArray[i] = "<li>" ++ problemsArray[i] ++ "</li>";
       };
     };
-    let problemsFormatted = "<ol>" ++ Js.Array.joinWith("", problemsArray) ++ "</ol>";
+    let problemsFormatted =
+      "<ol>" ++ Js.Array.joinWith("", problemsArray) ++ "</ol>";
     "<b>Interviewer:</b> "
     ++ interviewerName
     ++ "\n\n"
@@ -93,6 +95,19 @@ let make = (~time: Time.t) => {
     ++ problemsFormatted
     ++ "\n\n";
   };
+
+  let submit = () =>
+    if (interviewerName == "") {
+      Dom.Window.alert("Interviewer name must not be empty", Dom.window);
+    } else {
+      copyToClipboard(
+        ~formattedText=
+          Util.prettifyText(
+            getFormattedInfo() ++ "<b>Feedback:</b>\n" ++ text,
+          ),
+        ~plainText=getInfo() ++ "Feedback:\n" ++ text,
+      );
+    };
 
   let instructions = {|
   Prepend your comment with "+" if it is a positive comment or with "-" if it is a negative comment
@@ -200,15 +215,7 @@ let make = (~time: Time.t) => {
               />
               <div style={ReactDOM.Style.make(~height="20px", ())} />
               <Button
-                onClick={_ =>
-                  copyToClipboard(
-                    ~formattedText=
-                      Util.prettifyText(
-                        getFormattedInfo() ++ "<b>Feedback:</b>\n" ++ text,
-                      ),
-                    ~plainText=getInfo() ++ "Feedback:\n" ++ text,
-                  )
-                }
+                onClick={_ => submit()}
                 variant=`Contained
                 color=`Primary
                 style={ReactDOM.Style.make(~width="100%", ())}>
