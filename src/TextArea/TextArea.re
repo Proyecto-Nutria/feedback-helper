@@ -77,8 +77,15 @@ let make = (~time: Time.t) => {
   };
 
   let getFormattedInfo = (): string => {
-    let problemsFormatted =
-      Js.Array.joinWith("\n", Js.String.split(";", problems));
+    let problemsArray = Js.String.split(";", problems);
+    for (i in 0 to Array.length(problemsArray) - 1) {
+      if (Util.isUrl(problemsArray[i])) {
+        problemsArray[i] = "<li>" ++ Util.urlFormat(problemsArray[i]) ++ "</li>";
+      } else {
+        problemsArray[i] = "<li>" ++ problemsArray[i] ++ "</li>";
+      };
+    };
+    let problemsFormatted = "<ol>" ++ Js.Array.joinWith("", problemsArray) ++ "</ol>";
     "<b>Interviewer:</b> "
     ++ interviewerName
     ++ "\n\n"
@@ -196,7 +203,9 @@ let make = (~time: Time.t) => {
                 onClick={_ =>
                   copyToClipboard(
                     ~formattedText=
-                      Util.prettifyText(getFormattedInfo() ++ "<b>Feedback:</b>\n" ++ text),
+                      Util.prettifyText(
+                        getFormattedInfo() ++ "<b>Feedback:</b>\n" ++ text,
+                      ),
                     ~plainText=getInfo() ++ "Feedback:\n" ++ text,
                   )
                 }

@@ -65,3 +65,11 @@ let stringFromOption = (str: option(string)): string => {
   | None => ""
   };
 };
+
+let isUrl = (str: string): bool => {
+  matchRegex("^((https?:\\/\\/))?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$", str);
+};
+
+let urlFormat= (url: string): string => {
+  "<a href=" ++ "\"" ++ url ++ "\"" ++ ">" ++ url ++ "</a>";
+};
