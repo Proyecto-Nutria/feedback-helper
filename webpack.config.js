@@ -1,8 +1,9 @@
 const path = require("path")
 const HtmlWebpackPlugin = require("html-webpack-plugin")
 const webpack = require("webpack");
-const outputDir = path.join(__dirname, ".")
-const PORT = process.env.PORT || 8000;
+const outputDir = path.join(__dirname, "dist")
+const publicFolder = path.join(__dirname, "public")
+const PORT = 8000;
 const URL = `http://localhost:${PORT}/`;
 const subdomain = 'feedback-helper';
 
@@ -24,17 +25,17 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: "index.html",
+      template: path.join(publicFolder, "index.html"),
       inject: false
     }),
     new webpack.DefinePlugin({
-      'process.env.URL': JSON.stringify(process.env.URL || `${URL}${subdomain}`)
+      'process.env.URL': JSON.stringify(`${URL}${subdomain}`)
     })
   ],
   devServer: {
     publicPath: `/${subdomain}`,
     compress: true,
-    contentBase: outputDir,
+    contentBase: publicFolder,
     port: PORT,
     historyApiFallback: true,
     host: "0.0.0.0",

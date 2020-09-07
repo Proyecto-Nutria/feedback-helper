@@ -6,7 +6,7 @@
     "build": "bsb -make-world && URL=https://proyecto-nutria.github.io/feedback-helper fpack build ./src/Index.bs.js --dev && yarn clean",
     "start": "concurrently \"yarn watch:bs\" \"yarn watch:webpack\"",
     "watch:bs": "bsb -make-world -w -ws _",
-    "watch:webpack": "URL=http://localhost:8000 webpack-dev-server",
+    "watch:webpack": "webpack-dev-server",
     "clean": "bsb -clean-world",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
