@@ -4,9 +4,10 @@
   "homepage": "https://proyecto-nutria.github.io/feedback-helper",
   "scripts": {
     "build": "bsb -make-world && URL=https://proyecto-nutria.github.io/feedback-helper fpack build ./src/Index.bs.js --dev && yarn clean",
-    "start": "URL=http://localhost:8000 bsb -make-world -w -ws _ ",
+    "start": "concurrently \"yarn watch:bs\" \"yarn watch:webpack\"",
+    "watch:bs": "bsb -make-world -w -ws _",
+    "watch:webpack": "URL=http://localhost:8000 webpack-dev-server",
     "clean": "bsb -clean-world",
-    "server": "URL=http://localhost:8000 webpack-dev-server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -26,16 +27,17 @@
   },
   "devDependencies": {
     "@jsiebern/bs-material-ui": "^2.0.2",
+    "babel": "^6.23.0",
+    "babel-preset-env": "^1.7.0",
     "bs-platform": "^8.2.0",
+    "concurrently": "^5.3.0",
     "css-loader": "^3.2.0",
     "fastpack": "^0.8.4",
     "html-webpack-plugin": "^3.2.0",
     "style-loader": "^1.0.0",
+    "uglify-js": "^3.10.2",
     "webpack": "^4.0.1",
     "webpack-cli": "^3.1.1",
-    "webpack-dev-server": "^3.1.8",
-    "uglify-js": "^3.10.2",
-    "babel": "^6.23.0",
-    "babel-preset-env": "^1.7.0"
+    "webpack-dev-server": "^3.1.8"
   }
 }
