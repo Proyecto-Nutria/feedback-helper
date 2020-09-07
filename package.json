@@ -21,8 +21,8 @@
     "@material-ui/icons": "^4.9.1",
     "bs-webapi": "^0.19.1",
     "clipboard-polyfill": "^3.0.1",
-    "react": "^16.8.1",
-    "react-dom": "^16.8.1",
+    "react": "0.0.0-experimental-94c0244ba",
+    "react-dom": "0.0.0-experimental-94c0244ba",
     "reason-react": ">=0.7.1"
   },
   "devDependencies": {
