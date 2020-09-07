@@ -6,7 +6,7 @@ let make = () => {
   let (startingPointInTime, setStartingPointInTime) =
     React.useState(() => Js.Date.now());
   let (isTimerActive, setIsTimerActive) = React.useState(() => false);
-  let (darkTheme, setDarkTheme) = React.useState(() => false);
+  let (isDarkTheme, setDarkTheme) = React.useState(() => true);
 
   React.useEffect1(
     () => {
@@ -58,17 +58,19 @@ let make = () => {
     setIsTimerActive(_ => true);
   };
   let onPause = (): unit => setIsTimerActive(_ => false);
+
   let onReset = (): unit => {
     onPause();
     setGTime(_ => Time.newDuration());
   };
+
   let updateTimes = (~newTime: Time.t, ~newEndTime: Time.t): unit => {
     setGTime(_ => newTime);
     setEndTime(_ => newEndTime);
   };
   open MaterialUi;
   let themeOptions = ref(ThemeOptions.make());
-  if (darkTheme) {
+  if (isDarkTheme) {
     let primary = ThemeOptions.Primary.make(~main="#EA80FC", ());
     let secondary = ThemeOptions.Secondary.make(~main="#ffbd69", ());
     let paletteOptions =
@@ -91,7 +93,7 @@ let make = () => {
         ~alignItems="center",
         ~alignContent="center",
         ~overflowY="auto",
-        ~background=darkTheme ? "#575757" : "#A9A9A9",
+        ~background=isDarkTheme ? "#575757" : "#A9A9A9",
         (),
       )}>
       <TimerView
@@ -102,7 +104,7 @@ let make = () => {
         onPause
         onReset
       />
-      <Switch onChange={_ => setDarkTheme(old => !old)}>
+      <Switch checked=isDarkTheme onChange={_ => setDarkTheme(old => !old)}>
         "swith theme"->React.string
       </Switch>
       <TextArea time=gTime />
