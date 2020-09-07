@@ -17,14 +17,10 @@ jobs:
         run: |
           yarn
           yarn build
-          ls
           shopt -s extglob
           rm -Rf -v !("public"|"bundle")
-          ls
           mv ./public/* ./
-          ls
           rm -R public
-          ls
 
         env:
           URL: https://proyecto-nutria.github.io/feedback-helper/
@@ -35,3 +31,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: gh-pages # The branch the action should deploy to.
           FOLDER: . # The folder the action should deploy.
+          SINGLE_COMMIT: true
