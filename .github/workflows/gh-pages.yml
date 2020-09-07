@@ -17,6 +17,8 @@ jobs:
         run: |
           yarn
           yarn build
+          mv ./public/* ./
+
         env:
           URL: https://proyecto-nutria.github.io/feedback-helper/
 
