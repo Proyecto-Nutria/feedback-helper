@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "homepage": "https://proyecto-nutria.github.io/feedback-helper",
   "scripts": {
-    "build": "bsb -make-world && URL=https://proyecto-nutria.github.io/feedback-helper fpack build ./src/Index.bs.js --dev && yarn clean",
+    "build": "bsb -make-world && fpack build ./src/Index.bs.js --development --env-var=URL=https://proyecto-nutria.github.io/feedback-helper && yarn clean",
     "start": "concurrently \"yarn watch:bs\" \"yarn watch:webpack\"",
     "watch:bs": "bsb -make-world -w -ws _",
     "watch:webpack": "webpack-dev-server",

@@ -21,9 +21,6 @@ const isLocalhost = Boolean(
 );
 
 export default function register(config) {
-  if (!process.env.URL) {
-    process.env.URL = "https://proyecto-nutria.github.io/feedback-helper";
-  }
   if ('serviceWorker' in navigator) {
     // The URL constructor is available in all browsers that support SW.
     const publicUrl = new URL(process.env.URL, window.location.href);
