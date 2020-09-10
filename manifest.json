@@ -1,0 +1,15 @@
+{
+  "short_name": "Feedback Helper",
+  "name": "Feedback Helper",
+  "icons": [
+    {
+      "src": "icon.png",
+      "sizes": "150x150",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "https://proyecto-nutria.github.io/feedback-helper/",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}
