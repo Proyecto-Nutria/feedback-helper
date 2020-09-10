@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "homepage": "https://proyecto-nutria.github.io/feedback-helper",
   "scripts": {
-    "build": "bsb -make-world && fpack build ./src/Index.bs.js --development --env-var=URL=https://proyecto-nutria.github.io/feedback-helper --env-var=API_URL=https:// && yarn clean",
+    "build": "yarn relay && bsb -make-world && fpack build ./src/Index.bs.js --development --env-var=URL=https://proyecto-nutria.github.io/feedback-helper --env-var=API_URL=https://proyecto-nutria.herokuapp.com && yarn clean",
     "start": "concurrently \"yarn watch:relay\" \"yarn watch:bs\" \"yarn watch:webpack\"",
     "watch:bs": "bsb -make-world -w -ws _",
     "watch:webpack": "webpack-dev-server",
