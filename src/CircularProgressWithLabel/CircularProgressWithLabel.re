@@ -8,7 +8,7 @@ let make = (~progress: int, ~label: string) => {
         (),
       )}>
       <CircularProgress
-        variant=`Static
+        variant=`Determinate
         value={Number.int(progress)}
         size={CircularProgress.Size.int(100)}
         thickness=MaterialUi_Types.Number.int(5)

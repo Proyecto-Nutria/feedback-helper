@@ -3,6 +3,8 @@ const HtmlWebpackPlugin = require("html-webpack-plugin")
 const webpack = require("webpack");
 const outputDir = path.join(__dirname, "dist")
 const publicFolder = path.join(__dirname, "public")
+const API_URL = "https://proyecto-nutria.herokuapp.com";
+// const API_URL = "http://192.168.100.232:4000/";
 const PORT = 8000;
 const URL = `http://localhost:${PORT}/`;
 const subdomain = 'feedback-helper';
@@ -29,7 +31,8 @@ module.exports = {
       inject: false
     }),
     new webpack.DefinePlugin({
-      'process.env.URL': JSON.stringify(`${URL}${subdomain}`)
+      'process.env.URL': JSON.stringify(`${URL}${subdomain}`),
+      'process.env.API_URL': JSON.stringify(API_URL)
     })
   ],
   devServer: {

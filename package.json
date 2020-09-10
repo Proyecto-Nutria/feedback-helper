@@ -3,10 +3,12 @@
   "version": "0.0.1",
   "homepage": "https://proyecto-nutria.github.io/feedback-helper",
   "scripts": {
-    "build": "bsb -make-world && fpack build ./src/Index.bs.js --development --env-var=URL=https://proyecto-nutria.github.io/feedback-helper && yarn clean",
-    "start": "concurrently \"yarn watch:bs\" \"yarn watch:webpack\"",
+    "build": "bsb -make-world && fpack build ./src/Index.bs.js --development --env-var=URL=https://proyecto-nutria.github.io/feedback-helper --env-var=API_URL=https:// && yarn clean",
+    "start": "concurrently \"yarn watch:relay\" \"yarn watch:bs\" \"yarn watch:webpack\"",
     "watch:bs": "bsb -make-world -w -ws _",
     "watch:webpack": "webpack-dev-server",
+    "watch:relay": "reason-relay-compiler --watch",
+    "relay": "reason-relay-compiler",
     "clean": "bsb -clean-world",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -17,13 +19,21 @@
   "author": "Proyecto-Nutria",
   "license": "AGPL-3.0-only",
   "dependencies": {
-    "@material-ui/core": "^4.11.0",
+    "@material-ui/core": "^5.0.0-alpha.9",
     "@material-ui/icons": "^4.9.1",
+    "bs-fetch": "^0.6.2",
     "bs-webapi": "^0.19.1",
     "clipboard-polyfill": "^3.0.1",
-    "react": "0.0.0-experimental-94c0244ba",
-    "react-dom": "0.0.0-experimental-94c0244ba",
-    "reason-react": ">=0.7.1"
+    "graphql": "^15.3.0",
+    "react": "0.0.0-experimental-d28bd2994",
+    "react-dom": "0.0.0-experimental-d28bd2994",
+    "react-relay": "0.0.0-experimental-183bdd28",
+    "reason-promise": "^1.1.1",
+    "reason-react": ">=0.9.1",
+    "reason-relay": "^0.11.0",
+    "relay-compiler": "10.0.1",
+    "relay-config": "10.0.1",
+    "relay-runtime": "10.0.1"
   },
   "devDependencies": {
     "@jsiebern/bs-material-ui": "^2.0.2",
@@ -39,5 +49,9 @@
     "webpack": "^4.0.1",
     "webpack-cli": "^3.1.1",
     "webpack-dev-server": "^3.1.8"
+  },
+  "resolutions": {
+    "react": "0.0.0-experimental-d28bd2994",
+    "react-dom": "0.0.0-experimental-d28bd2994"
   }
 }

@@ -7,6 +7,19 @@ let make = (~time: Time.t) => {
   let (text, setText) = React.useState(_ => "");
   let (interviewerName, setInterviewerName) = React.useState(_ => "");
   let (problems, setProblems) = React.useState(_ => "");
+  let (score, setScore) = React.useState(_ => (-1));
+  let (interviewScores, setInterviewScores) =
+    React.useState(_ =>
+      (
+        [|
+          {id: "0", value: 0, description: "No Hire"},
+          {id: "1", value: 1, description: "Undetermined"},
+          {id: "2", value: 2, description: "Hire"},
+          {id: "3", value: 3, description: "Strongly Hire"},
+        |]:
+          array(LoadScores.Query.Types.response_interviewScores)
+      )
+    );
   open Webapi;
 
   let scrollableDiv = React.createRef();
@@ -23,15 +36,16 @@ let make = (~time: Time.t) => {
     };
   };
 
-  let getStringValue = (e: ReactEvent.Form.t): string => {
+  let getValueOf = (e: ReactEvent.Form.t) => {
     ReactEvent.Form.target(e)##value;
   };
 
   let handleChange = (e: ReactEvent.Form.t) => {
     ReactEvent.Form.persist(e);
     fullScrollBottom();
-    let timeFormat = (time: Time.t) => "[" ++ Time.format(time) ++ "] ";
-    let currText = getStringValue(e);
+    let timeFormat = (rawTime: Time.t) =>
+      "[" ++ Time.format(rawTime) ++ "] ";
+    let currText: string = getValueOf(e);
     let length = String.length(currText);
     let lastLine = ref("");
     let lastEnterPos = ref(-1);
@@ -55,11 +69,9 @@ let make = (~time: Time.t) => {
         setText(_ => String.sub(currText, 0, lastEnterPos^));
       };
     } else if (length == 1) {
-      let ans = String.concat("", [timeFormat(time), currText]);
-      setText(_ => ans);
+      setText(_ => String.concat("", [timeFormat(time), currText]));
     } else if (length > 0 && currText.[length - 1] == '\n') {
-      let ans = String.concat("", [currText, timeFormat(time)]);
-      setText(_ => ans);
+      setText(_ => String.concat("", [currText, timeFormat(time)]));
     } else {
       setText(_ => currText);
     };
@@ -70,6 +82,9 @@ let make = (~time: Time.t) => {
       Js.Array.joinWith("\n", Js.String.split(";", problems));
     "Interviewer: "
     ++ interviewerName
+    ++ "\n\n"
+    ++ "Verdict: "
+    ++ interviewScores[score].description
     ++ "\n\n"
     ++ "Problems: \n"
     ++ problemsFormatted
@@ -91,15 +106,33 @@ let make = (~time: Time.t) => {
     "<b>Interviewer:</b> "
     ++ interviewerName
     ++ "\n\n"
+    ++ "<b>Verdict:</b> "
+    ++ interviewScores[score].description
+    ++ "\n\n"
     ++ "<b>Problems:</b>\n"
     ++ problemsFormatted
     ++ "\n\n";
   };
 
-  let submit = () =>
+  let isFormValid = (): bool => {
+    let output = ref("");
     if (interviewerName == "") {
-      Dom.Window.alert("Interviewer name must not be empty", Dom.window);
+      output := output^ ++ "->Interviewer Name is a required field\n";
+    };
+    if (score == (-1)) {
+      output := output^ ++ "->Score is a required field";
+    };
+    if (output^ == "") {
+      true;
     } else {
+      output := "Error:\n" ++ output^;
+      Dom.Window.alert(output^, Dom.window);
+      false;
+    };
+  };
+
+  let submit = () =>
+    if (isFormValid()) {
       copyToClipboard(
         ~formattedText=
           Util.prettifyText(
@@ -108,6 +141,12 @@ let make = (~time: Time.t) => {
         ~plainText=getInfo() ++ "Feedback:\n" ++ text,
       );
     };
+
+  let fetch =
+      (~scoresArray: array(LoadScores.Query.Types.response_interviewScores))
+      : unit => {
+    setInterviewScores(_ => scoresArray);
+  };
 
   let instructions = {|
   Prepend your comment with "+" if it is a positive comment or with "-" if it is a negative comment
@@ -165,13 +204,12 @@ let make = (~time: Time.t) => {
                     value={TextField.Value.string(interviewerName)}
                     onChange={e => {
                       ReactEvent.Form.persist(e);
-                      setInterviewerName(_ => getStringValue(e));
+                      setInterviewerName(_ => getValueOf(e));
                     }}
                     label={"Interviewer"->React.string}
                     variant=`Outlined
                     placeholder="Nutria"
                     style={ReactDOM.Style.make(
-                      ~color="white",
                       ~flex="1",
                       ~display="flex",
                       (),
@@ -191,7 +229,7 @@ let make = (~time: Time.t) => {
                     value={TextField.Value.string(problems)}
                     onChange={e => {
                       ReactEvent.Form.persist(e);
-                      setProblems(_ => getStringValue(e));
+                      setProblems(_ => getValueOf(e));
                     }}
                     label={"Problems"->React.string}
                     variant=`Outlined
@@ -202,6 +240,51 @@ let make = (~time: Time.t) => {
                       (),
                     )}
                   />
+                </div>
+                <div
+                  style={ReactDOM.Style.make(
+                    ~display="flex",
+                    ~flexGrow="10",
+                    ~minWidth="100px",
+                    ~justifyContent="center",
+                    ~alignItems="center",
+                    ~padding="2px 3px 7px 3px",
+                    (),
+                  )}>
+                  <React.Suspense fallback=React.null>
+                    <ReasonReactErrorBoundary fallback={_ => React.null}>
+                      <LoadScores onFetch=fetch />
+                    </ReasonReactErrorBoundary>
+                  </React.Suspense>
+                  <TextField
+                    value={score->TextField.Value.int}
+                    label={"score"->React.string}
+                    variant=`Outlined
+                    select=true
+                    style={ReactDOM.Style.make(
+                      ~display="flex",
+                      ~flex="1",
+                      (),
+                    )}
+                    onChange={e => {setScore(_ => getValueOf(e))}}>
+                    <MenuItem value={MenuItem.Value.int(-1)}>
+                      <em> "Select Score"->React.string </em>
+                    </MenuItem>
+                    {React.array(
+                       Array.map(
+                         (
+                           interviewScore: LoadScores.Query.Types.response_interviewScores,
+                         ) => {
+                           <MenuItem
+                             key={"score" ++ interviewScore.id}
+                             value={MenuItem.Value.int(interviewScore.value)}>
+                             {interviewScore.description}
+                           </MenuItem>
+                         },
+                         interviewScores,
+                       ),
+                     )}
+                  </TextField>
                 </div>
               </div>
               <TextField
