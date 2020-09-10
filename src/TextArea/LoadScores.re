@@ -14,13 +14,12 @@ module Query = [%relay.query
 let make =
   Util.forceMemo(
     (
-      ~onFetch:
-         (~scoresArray: array(Query.Types.response_interviewScores)) => unit,
+      ~onFetch: (~scores: array(Query.Types.response_interviewScores)) => unit,
     ) => {
     let queryData = Query.use(~variables=(), ());
     React.useEffect1(
       _ => {
-        onFetch(~scoresArray=queryData.interviewScores);
+        onFetch(~scores=queryData.interviewScores);
         None;
       },
       [|queryData|],

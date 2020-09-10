@@ -4,11 +4,11 @@ external copyToClipboard: (~formattedText: string, ~plainText: string) => unit =
 
 [@react.component]
 let make = (~time: Time.t) => {
-  let (text, setText) = React.useState(_ => "");
+  let (feedback, setFeedback) = React.useState(_ => "");
   let (interviewerName, setInterviewerName) = React.useState(_ => "");
   let (problems, setProblems) = React.useState(_ => "");
   let (score, setScore) = React.useState(_ => (-1));
-  let (interviewScores, setInterviewScores) =
+  let (scoresArray, setScoresArray) =
     React.useState(_ =>
       (
         [|
@@ -64,16 +64,16 @@ let make = (~time: Time.t) => {
 
     if (Util.exactMatch("\\[\\d+:\\d+\\]", lastLine^)) {
       if (lastEnterPos^ == (-1)) {
-        setText(_ => "");
+        setFeedback(_ => "");
       } else {
-        setText(_ => String.sub(currText, 0, lastEnterPos^));
+        setFeedback(_ => String.sub(currText, 0, lastEnterPos^));
       };
     } else if (length == 1) {
-      setText(_ => String.concat("", [timeFormat(time), currText]));
+      setFeedback(_ => String.concat("", [timeFormat(time), currText]));
     } else if (length > 0 && currText.[length - 1] == '\n') {
-      setText(_ => String.concat("", [currText, timeFormat(time)]));
+      setFeedback(_ => String.concat("", [currText, timeFormat(time)]));
     } else {
-      setText(_ => currText);
+      setFeedback(_ => currText);
     };
   };
 
@@ -84,7 +84,7 @@ let make = (~time: Time.t) => {
     ++ interviewerName
     ++ "\n\n"
     ++ "Verdict: "
-    ++ interviewScores[score].description
+    ++ scoresArray[score].description
     ++ "\n\n"
     ++ "Problems: \n"
     ++ problemsFormatted
@@ -107,7 +107,7 @@ let make = (~time: Time.t) => {
     ++ interviewerName
     ++ "\n\n"
     ++ "<b>Verdict:</b> "
-    ++ interviewScores[score].description
+    ++ scoresArray[score].description
     ++ "\n\n"
     ++ "<b>Problems:</b>\n"
     ++ problemsFormatted
@@ -117,10 +117,16 @@ let make = (~time: Time.t) => {
   let isFormValid = (): bool => {
     let output = ref("");
     if (interviewerName == "") {
-      output := output^ ++ "->Interviewer Name is a required field\n";
+      output := output^ ++ "-> Interviewer Name is a required field\n";
+    };
+    if (problems == "") {
+      output := output^ ++ "-> Problems is a required field\n";
     };
     if (score == (-1)) {
-      output := output^ ++ "->Score is a required field";
+      output := output^ ++ "-> Score is a required field\n";
+    };
+    if (feedback == "") {
+      output := output^ ++ "-> Feedback is a required field\n";
     };
     if (output^ == "") {
       true;
@@ -136,16 +142,16 @@ let make = (~time: Time.t) => {
       copyToClipboard(
         ~formattedText=
           Util.prettifyText(
-            getFormattedInfo() ++ "<b>Feedback:</b>\n" ++ text,
+            getFormattedInfo() ++ "<b>Feedback:</b>\n" ++ feedback,
           ),
-        ~plainText=getInfo() ++ "Feedback:\n" ++ text,
+        ~plainText=getInfo() ++ "Feedback:\n" ++ feedback,
       );
     };
 
   let fetch =
-      (~scoresArray: array(LoadScores.Query.Types.response_interviewScores))
+      (~scores: array(LoadScores.Query.Types.response_interviewScores))
       : unit => {
-    setInterviewScores(_ => scoresArray);
+    setScoresArray(_ => scores);
   };
 
   let instructions = {|
@@ -281,7 +287,7 @@ let make = (~time: Time.t) => {
                              {interviewScore.description}
                            </MenuItem>
                          },
-                         interviewScores,
+                         scoresArray,
                        ),
                      )}
                   </TextField>
@@ -293,7 +299,7 @@ let make = (~time: Time.t) => {
                 variant=`Outlined
                 multiline=true
                 onChange=handleChange
-                value={TextField.Value.string(text)}
+                value={TextField.Value.string(feedback)}
                 placeholder=instructions
               />
               <div style={ReactDOM.Style.make(~height="20px", ())} />
