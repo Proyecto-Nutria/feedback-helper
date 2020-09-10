@@ -17,7 +17,11 @@
   "bs-dependencies": [
     "reason-react",
     "@jsiebern/bs-material-ui",
-    "bs-webapi"
+    "bs-webapi",
+    "reason-relay",
+    "reason-promise",
+    "bs-fetch"
   ],
-  "refmt": 3
+  "refmt": 3,
+  "ppx-flags": ["reason-relay/ppx"]
 }

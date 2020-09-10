@@ -17,15 +17,15 @@ let make = () => {
           Some(
             Js.Global.setInterval(
               () => {
-                setGTime(_ =>
+                let newTime =
                   Time.normalize({
                     minutes: 0,
                     seconds:
                       int_of_float(
                         (Js.Date.now() -. startingPointInTime) /. 1000.0,
                       ),
-                  })
-                )
+                  });
+                setGTime(_ => newTime);
               },
               1000,
             ),
@@ -105,7 +105,7 @@ let make = () => {
         onReset
       />
       <Switch checked=isDarkTheme onChange={_ => setDarkTheme(old => !old)}>
-        "swith theme"->React.string
+        "switch theme"->React.string
       </Switch>
       <TextArea time=gTime />
       <div style={ReactDOM.Style.make(~height="15px", ())} />

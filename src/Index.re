@@ -1,3 +1,9 @@
 [@bs.module "./serviceWorker.js"] external register: unit => unit = "default";
-ReactDOMRe.renderToElementWithId(<FeedbackHelper />, "root");
+// ReactExperimental.renderConcurrentRootAtElementWithId(
+  ReactDOMRe.renderToElementWithId(
+  <ReasonRelay.Context.Provider environment=RelayEnv.environment>
+    <FeedbackHelper />
+  </ReasonRelay.Context.Provider>,
+  "root",
+);
 register();

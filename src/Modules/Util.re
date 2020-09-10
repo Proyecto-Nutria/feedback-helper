@@ -73,3 +73,5 @@ let isUrl = (str: string): bool => {
 let urlFormat= (url: string): string => {
   "<a href=" ++ "\"" ++ url ++ "\"" ++ ">" ++ url ++ "</a>";
 };
+
+let forceMemo = React.memoCustomCompareProps(_, (_, _) => true);
