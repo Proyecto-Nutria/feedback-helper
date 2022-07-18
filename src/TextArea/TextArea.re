@@ -12,10 +12,12 @@ let make = (~time: Time.t) => {
     React.useState(_ =>
       (
         [|
-          {id: "0", value: 0, description: "No Hire"},
-          {id: "1", value: 1, description: "Undetermined"},
-          {id: "2", value: 2, description: "Hire"},
-          {id: "3", value: 3, description: "Strongly Hire"},
+          {id: "0", value: 0, description: "Strong No Hire"},
+          {id: "1", value: 1, description: "No Hire"},
+          {id: "2", value: 2, description: "Leaning No Hire"},
+          {id: "3", value: 3, description: "Leaning Hire"},
+          {id: "4", value: 4, description: "Hire"},
+          {id: "5", value: 5, description: "Strong Hire"},
         |]:
           array(LoadScores.Query.Types.response_interviewScores)
       )
@@ -257,11 +259,6 @@ let make = (~time: Time.t) => {
                     ~padding="2px 3px 7px 3px",
                     (),
                   )}>
-                  <React.Suspense fallback=React.null>
-                    <ReasonReactErrorBoundary fallback={_ => React.null}>
-                      <LoadScores onFetch=fetch />
-                    </ReasonReactErrorBoundary>
-                  </React.Suspense>
                   <TextField
                     value={score->TextField.Value.int}
                     label={"score"->React.string}
